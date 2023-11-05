@@ -62,6 +62,7 @@ public class Shell : MonoBehaviour
     [SerializeField, Required, FoldoutGroup("Settings/Global wind")]
     private Transform _globalWindDirectionTarget = null;
 
+    private RenderTexture _maskTexture;
     private bool _dirty;
 
     private void Refresh()
@@ -93,6 +94,7 @@ public class Shell : MonoBehaviour
     private void GenerateQuads()
     {
         this._resolution = Mathf.Min(this._resolution, 1024);
+        this._maskTexture = this.GenerateMask();
         
         for (int i = 0; i < this._count; ++i)
             this.GenerateQuad(i);
@@ -111,7 +113,7 @@ public class Shell : MonoBehaviour
         Color color = Color.Lerp(this._downColor, this._upColor, this._colorGradientCurve.Evaluate(percentage));
 
         Material quadMaterial = new(this._shellLayerMaterial);
-        quadMaterial.SetTexture(MASK_SHADER_ID, this.GenerateMask()); // [TODO] No need to regenerate mask for each quad.
+        quadMaterial.SetTexture(MASK_SHADER_ID, this._maskTexture);
         quadMaterial.SetColor(COLOR_SHADER_ID, color);
         quadMaterial.SetFloat(RADIUS_SHADER_ID, this._radius);
         quadMaterial.SetTexture(DISPLACEMENT_SHADER_ID, this._displacementTexture);
