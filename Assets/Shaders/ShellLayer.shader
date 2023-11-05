@@ -61,11 +61,12 @@ Shader "Shell Layer"
                 o.shellPercentage = _ShellIndex / _ShellsCount;
                 o.uv = v.uv;
 
-                o.vertex = v.vertex;
+                float3 vertex = v.vertex;
                 float2 displacement = (tex2Dlod(_Displacement, float4((o.uv * _DisplacementScale) + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;
-                o.vertex.xz += displacement * o.shellPercentage * _DisplacementIntensity;
-                o.vertex.xz += _GlobalWindDirection * o.shellPercentage;
-                o.vertex = UnityObjectToClipPos(o.vertex);
+                vertex.xz += displacement * o.shellPercentage * _DisplacementIntensity;
+                vertex.xz += _GlobalWindDirection * o.shellPercentage;
+                
+                o.vertex = UnityObjectToClipPos(vertex);
                 
                 return o;
             }
