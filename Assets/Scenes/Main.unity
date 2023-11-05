@@ -249,8 +249,8 @@ MonoBehaviour:
   _quadPrefab: {fileID: 1879440918}
   _shellLayerMaterial: {fileID: 2100000, guid: ece1560fac324474a978964a1ec1b5d8, type: 2}
   _randomComputeShader: {fileID: 7200000, guid: 53bb92569eae4814fa7e8e8d9ada2b78, type: 3}
-  _downColor: {r: 0.031175174, g: 0.31132078, b: 0, a: 1}
-  _upColor: {r: 0.3780194, g: 0.990566, b: 0.28502133, a: 1}
+  _downColor: {r: 0.079476684, g: 0.3584906, b: 0.11952099, a: 1}
+  _upColor: {r: 0.5433176, g: 1, b: 0.4764151, a: 1}
   _colorGradientCurve:
     serializedVersion: 2
     m_Curve:
@@ -275,12 +275,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _resolution: 64
-  _height: 0.08
+  _resolution: 88
+  _height: 0.83
   _count: 64
-  _radius: 1.2
+  _radius: 1.5
   _maskInitRandomStep: 0.9
   _maskLastRandomStep: 0.4
+  _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
+  _displacementIntensity: 0.2
+  _displacementSpeed: 0.08
+  _displacementScale: 1
 --- !u!4 &1394839737
 Transform:
   m_ObjectHideFlags: 0
@@ -455,7 +459,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1879440918}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1879440922
 Transform:
   m_ObjectHideFlags: 0
@@ -463,11 +467,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1879440918}
-  m_LocalRotation: {x: 0.7070936, y: -0, z: -0, w: 0.70712006}
-  m_LocalPosition: {x: -2, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -20.96, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

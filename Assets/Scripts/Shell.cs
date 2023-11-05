@@ -6,6 +6,10 @@ public class Shell : MonoBehaviour
     private static readonly int MASK_SHADER_ID = Shader.PropertyToID("_Mask");
     private static readonly int COLOR_SHADER_ID = Shader.PropertyToID("_Color");
     private static readonly int RADIUS_SHADER_ID = Shader.PropertyToID("_Radius");
+    private static readonly int DISPLACEMENT_SHADER_ID = Shader.PropertyToID("_Displacement");
+    private static readonly int DISPLACEMENT_INTENSITY_SHADER_ID = Shader.PropertyToID("_DisplacementIntensity");
+    private static readonly int DISPLACEMENT_SPEED_SHADER_ID = Shader.PropertyToID("_DisplacementSpeed");
+    private static readonly int DISPLACEMENT_SCALE_SHADER_ID = Shader.PropertyToID("_DisplacementScale");
 
     [SerializeField, FoldoutGroup("References")]
     private GameObject _quadPrefab;
@@ -33,6 +37,15 @@ public class Shell : MonoBehaviour
     private float _maskInitRandomStep = 0.9f;
     [SerializeField, Range(0f, 1f), FoldoutGroup("Settings")]
     private float _maskLastRandomStep = 0.1f;
+
+    [SerializeField, FoldoutGroup("Settings/Displacement")]
+    private Texture2D _displacementTexture = null;
+    [SerializeField, Min(0f), FoldoutGroup("Settings/Displacement")]
+    private float _displacementIntensity = 1f;
+    [SerializeField, Min(0f), FoldoutGroup("Settings/Displacement")]
+    private float _displacementSpeed = 1f;
+    [SerializeField, Range(0f, 1f), FoldoutGroup("Settings/Displacement")]
+    private float _displacementScale = 1f;
 
     private bool _dirty;
     
@@ -85,6 +98,10 @@ public class Shell : MonoBehaviour
         quadMaterial.SetTexture(MASK_SHADER_ID, this.GenerateMask(index));
         quadMaterial.SetColor(COLOR_SHADER_ID, color);
         quadMaterial.SetFloat(RADIUS_SHADER_ID, this._radius);
+        quadMaterial.SetTexture(DISPLACEMENT_SHADER_ID, this._displacementTexture);
+        quadMaterial.SetFloat(DISPLACEMENT_INTENSITY_SHADER_ID, this._displacementIntensity);
+        quadMaterial.SetFloat(DISPLACEMENT_SPEED_SHADER_ID, this._displacementSpeed);
+        quadMaterial.SetFloat(DISPLACEMENT_SCALE_SHADER_ID, this._displacementScale);
         quadMaterial.SetFloat("_ShellIndex", index);
         quadMaterial.SetFloat("_ShellsCount", this._count);
         quadMaterial.SetFloat("_StepMin", this._maskInitRandomStep);
