@@ -26,9 +26,9 @@ Shader "Shell Layer"
 
             struct v2f
             {
-                float2 uv              : TEXCOORD0;
-                float4 vertex          : SV_POSITION;
-                float heightPercentage : TEXCOORD1;
+                float2 uv             : TEXCOORD0;
+                float4 vertex         : SV_POSITION;
+                float shellPercentage : TEXCOORD1;
             };
 
             uniform float2 _GlobalWindDirection;
@@ -44,8 +44,10 @@ Shader "Shell Layer"
             sampler2D _LocalOffset;
             float _LocalOffsetIntensity;
             
-            float4 _Color;
+            float4 _ColorMin;
+            float4 _ColorMax;
             float _Radius;
+            float _HeightPercentage;
 
             float _ShellIndex;
             float _ShellsCount;
@@ -56,13 +58,13 @@ Shader "Shell Layer"
             {
                 v2f o;
 
-                o.heightPercentage = _ShellIndex / _ShellsCount;
+                o.shellPercentage = _ShellIndex / _ShellsCount;
                 o.uv = v.uv;
 
                 o.vertex = v.vertex;
                 float2 displacement = (tex2Dlod(_Displacement, float4((o.uv * _DisplacementScale) + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;
-                o.vertex.xz += displacement * o.heightPercentage * _DisplacementIntensity;
-                o.vertex.xz += _GlobalWindDirection * o.heightPercentage;
+                o.vertex.xz += displacement * o.shellPercentage * _DisplacementIntensity;
+                o.vertex.xz += _GlobalWindDirection * o.shellPercentage;
                 o.vertex = UnityObjectToClipPos(o.vertex);
                 
                 return o;
@@ -79,10 +81,10 @@ Shader "Shell Layer"
                 float maskValue = tex2D(_Mask, i.uv).x;
                 fixed shellRandomValue = lerp(_StepMin, _StepMax, maskValue);
 
-                if (centerDistance > _Radius * (shellRandomValue - i.heightPercentage) && _ShellIndex > 0)
+                if (centerDistance > _Radius * (shellRandomValue - _HeightPercentage) && _ShellIndex > 0)
                     discard;
                 
-                return _Color;
+                return lerp(_ColorMin, _ColorMax, _HeightPercentage);
             }
             
             ENDCG
