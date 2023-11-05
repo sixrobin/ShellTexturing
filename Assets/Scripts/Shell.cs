@@ -10,7 +10,14 @@ public class Shell : MonoBehaviour
     private static readonly int DISPLACEMENT_INTENSITY_SHADER_ID = Shader.PropertyToID("_DisplacementIntensity");
     private static readonly int DISPLACEMENT_SPEED_SHADER_ID = Shader.PropertyToID("_DisplacementSpeed");
     private static readonly int DISPLACEMENT_SCALE_SHADER_ID = Shader.PropertyToID("_DisplacementScale");
-
+    private static readonly int LOCAL_OFFSET_SHADER_ID = Shader.PropertyToID("_LocalOffset");
+    private static readonly int LOCAL_OFFSET_INTENSITY_SHADER_ID = Shader.PropertyToID("_LocalOffsetIntensity");
+    private static readonly int GLOBAL_WIND_DIRECTION_SHADER_ID = Shader.PropertyToID("_GlobalWindDirection");
+    private static readonly int SHELL_INDEX_ID = Shader.PropertyToID("_ShellIndex");
+    private static readonly int SHELLS_COUNT_ID = Shader.PropertyToID("_ShellsCount");
+    private static readonly int STEP_MIN_ID = Shader.PropertyToID("_StepMin");
+    private static readonly int STEP_MAX_ID = Shader.PropertyToID("_StepMax");
+    
     [SerializeField, FoldoutGroup("References")]
     private GameObject _quadPrefab;
     [SerializeField, FoldoutGroup("References")]
@@ -47,8 +54,16 @@ public class Shell : MonoBehaviour
     [SerializeField, Range(0f, 1f), FoldoutGroup("Settings/Displacement")]
     private float _displacementScale = 1f;
 
-    private bool _dirty;
+    [SerializeField, FoldoutGroup("Settings/Local Offset")]
+    private Texture2D _localOffsetTexture = null;
+    [SerializeField, Min(0f), FoldoutGroup("Settings/Local Offset")]
+    private float _localOffsetIntensity = 1f;
     
+    [SerializeField, Required, FoldoutGroup("Settings/Global wind")]
+    private Transform _globalWindDirectionTarget = null;
+
+    private bool _dirty;
+
     private void Refresh()
     {
         if (this._quadPrefab == null)
@@ -60,7 +75,7 @@ public class Shell : MonoBehaviour
         this.GenerateQuads();
     }
 
-    private RenderTexture GenerateMask(int index)
+    private RenderTexture GenerateMask()
     {
         RenderTexture layerTexture = new(this._resolution, this._resolution, 0, RenderTextureFormat.ARGB32)
         {
@@ -79,33 +94,38 @@ public class Shell : MonoBehaviour
     {
         this._resolution = Mathf.Min(this._resolution, 1024);
         
-        // TODO: Add a simple quad below to fake an actual ground.
-        
-        float step = this._height / (this._count - 1);
         for (int i = 0; i < this._count; ++i)
-            this.GenerateQuad(i, step * i);
+            this.GenerateQuad(i);
     }
 
-    private GameObject GenerateQuad(int index, float height)
+    private GameObject GenerateQuad(int index)
     {
+        float step = this._height / (this._count - 1);
+        float height = step * index;
+
         GameObject quadInstance = Instantiate(this._quadPrefab, Vector3.zero, this._quadPrefab.transform.rotation, this.transform);
         quadInstance.transform.Translate(Vector3.up * height, Space.World);
+        // [TODO] More spacing between lower planes, and less spacing between higher planes.
 
         float percentage = index / (float)(this._count - 1);
         Color color = Color.Lerp(this._downColor, this._upColor, this._colorGradientCurve.Evaluate(percentage));
-        
+
         Material quadMaterial = new(this._shellLayerMaterial);
-        quadMaterial.SetTexture(MASK_SHADER_ID, this.GenerateMask(index));
+        quadMaterial.SetTexture(MASK_SHADER_ID, this.GenerateMask()); // [TODO] No need to regenerate mask for each quad.
         quadMaterial.SetColor(COLOR_SHADER_ID, color);
         quadMaterial.SetFloat(RADIUS_SHADER_ID, this._radius);
         quadMaterial.SetTexture(DISPLACEMENT_SHADER_ID, this._displacementTexture);
         quadMaterial.SetFloat(DISPLACEMENT_INTENSITY_SHADER_ID, this._displacementIntensity);
         quadMaterial.SetFloat(DISPLACEMENT_SPEED_SHADER_ID, this._displacementSpeed);
         quadMaterial.SetFloat(DISPLACEMENT_SCALE_SHADER_ID, this._displacementScale);
-        quadMaterial.SetFloat("_ShellIndex", index);
-        quadMaterial.SetFloat("_ShellsCount", this._count);
-        quadMaterial.SetFloat("_StepMin", this._maskInitRandomStep);
-        quadMaterial.SetFloat("_StepMax", this._maskLastRandomStep);
+        
+        quadMaterial.SetTexture(LOCAL_OFFSET_SHADER_ID, this._localOffsetTexture);
+        quadMaterial.SetFloat(LOCAL_OFFSET_INTENSITY_SHADER_ID, this._localOffsetIntensity);
+        
+        quadMaterial.SetFloat(SHELL_INDEX_ID, index);
+        quadMaterial.SetFloat(SHELLS_COUNT_ID, this._count);
+        quadMaterial.SetFloat(STEP_MIN_ID, this._maskInitRandomStep);
+        quadMaterial.SetFloat(STEP_MAX_ID, this._maskLastRandomStep);
         
         quadInstance.GetComponent<MeshRenderer>().material = quadMaterial;
 
@@ -125,6 +145,11 @@ public class Shell : MonoBehaviour
             this.Refresh();
             this._dirty = false;
         }
+        
+        Vector3 globalWindDirection = this._globalWindDirectionTarget.position;
+        globalWindDirection.y = globalWindDirection.z;
+        globalWindDirection *= 0.1f;
+        Shader.SetGlobalVector(GLOBAL_WIND_DIRECTION_SHADER_ID, globalWindDirection);
     }
 
     private void OnValidate()
