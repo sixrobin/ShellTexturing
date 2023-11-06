@@ -27,9 +27,8 @@ Shader "Shell Layer"
 
             struct v2f
             {
-                float2 uv             : TEXCOORD0;
-                float4 vertex         : SV_POSITION;
-                float shellPercentage : TEXCOORD1;
+                float2 uv     : TEXCOORD0;
+                float4 vertex : SV_POSITION;
             };
 
             uniform float2 _GlobalWindDirection;
@@ -61,7 +60,7 @@ Shader "Shell Layer"
             {
                 v2f o;
 
-                o.shellPercentage = _ShellIndex / _ShellsCount;
+                float shellPercentage = _ShellIndex / _ShellsCount;
                 o.uv = v.uv;
 
                 float3 vertex = v.vertex;
@@ -70,12 +69,15 @@ Shader "Shell Layer"
                 float height = _ShellHeight * _HeightPercentage;
                 float3 localHeightOffset = v.normal * height;
                 float3 globalHeightOffset = float3(0, height, 0);
+                // TODO: Apply gravity.
                 vertex.xyz += lerp(localHeightOffset, globalHeightOffset, _HeightSpacePercentage);
                 
                 // Horizontal displacement.
+                // TODO: Horizontal displacement should use mesh tangent.
+                // TODO: Apply "ripple" force.
                 float2 horizontalDisplacement = (tex2Dlod(_Displacement, float4(o.uv * _DisplacementScale + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;
-                vertex.xz += horizontalDisplacement * o.shellPercentage * _DisplacementIntensity;
-                vertex.xz += _GlobalWindDirection * o.shellPercentage;
+                vertex.xz += horizontalDisplacement * shellPercentage * _DisplacementIntensity;
+                vertex.xz += _GlobalWindDirection * shellPercentage;
 
                 o.vertex = UnityObjectToClipPos(vertex);
                 
@@ -93,7 +95,7 @@ Shader "Shell Layer"
                 float maskValue = tex2D(_Mask, i.uv).x;
                 fixed shellRandomValue = lerp(_StepMin, _StepMax, maskValue);
 
-                if (centerDistance > _Radius * (shellRandomValue - _HeightPercentage) && _ShellIndex > 0)
+                if (_ShellIndex > 0 && centerDistance > _Radius * (shellRandomValue - _HeightPercentage))
                     discard;
                 
                 return lerp(_ColorMin, _ColorMax, _HeightPercentage);
