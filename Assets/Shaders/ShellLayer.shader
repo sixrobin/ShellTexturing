@@ -43,6 +43,8 @@ Shader "Shell Layer"
 
             sampler2D _LocalOffset;
             float _LocalOffsetIntensity;
+
+            float _Gravity;
             
             float4 _ColorMin;
             float4 _ColorMax;
@@ -65,17 +67,19 @@ Shader "Shell Layer"
 
                 float3 vertex = v.vertex;
 
-                // Height.
+                // Shell height.
                 float height = _ShellHeight * _HeightPercentage;
                 float3 localHeightOffset = v.normal * height;
                 float3 globalHeightOffset = float3(0, height, 0);
-                // TODO: Apply gravity.
                 vertex.xyz += lerp(localHeightOffset, globalHeightOffset, _HeightSpacePercentage);
+
+                // Gravity.
+                vertex.y -= _Gravity * _HeightPercentage;
                 
                 // Horizontal displacement.
-                // TODO: Horizontal displacement should use mesh tangent.
-                // TODO: Apply "ripple" force.
                 float2 horizontalDisplacement = (tex2Dlod(_Displacement, float4(o.uv * _DisplacementScale + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;
+                // TODO: Apply "ripple" force to horizontal displacement.
+                // TODO: Horizontal displacement should use mesh tangent.
                 vertex.xz += horizontalDisplacement * shellPercentage * _DisplacementIntensity;
                 vertex.xz += _GlobalWindDirection * shellPercentage;
 
@@ -86,15 +90,17 @@ Shader "Shell Layer"
 
             fixed4 frag(v2f i) : SV_Target
             {
+                // Shell cells local distance.
                 float2 centerUV = (frac(i.uv / _Mask_TexelSize.xy) - 0.5) * 2;
                 float localOffset = (tex2D(_LocalOffset, floor(i.uv * _Mask_TexelSize.zw) * _Mask_TexelSize.xy) - 0.5) * 2;
                 centerUV += localOffset * _LocalOffsetIntensity;
-                
                 float centerDistance = length(centerUV);
-                
+
+                // Shell mask value.
                 float maskValue = tex2D(_Mask, i.uv).x;
                 fixed shellRandomValue = lerp(_StepMin, _StepMax, maskValue);
 
+                // Discard "invalid" pixels.
                 if (_ShellIndex > 0 && centerDistance > _Radius * (shellRandomValue - _HeightPercentage))
                     discard;
                 

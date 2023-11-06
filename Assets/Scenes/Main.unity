@@ -186,6 +186,7 @@ MonoBehaviour:
   _radius: 1.4
   _maskInitRandomStep: 1
   _maskLastRandomStep: 0.5
+  _gravity: 0
   _downColor: {r: 0.10399608, g: 0.38679248, b: 0.14382656, a: 1}
   _upColor: {r: 0.61811966, g: 1, b: 0.3915094, a: 1}
   _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
@@ -403,7 +404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1020651842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,11 +451,12 @@ MonoBehaviour:
   _radius: 1.2
   _maskInitRandomStep: 1
   _maskLastRandomStep: 0.5
+  _gravity: 0.1
   _downColor: {r: 0.4316235, g: 0.09019609, b: 0.49019608, a: 1}
   _upColor: {r: 0.8301887, g: 0.39551443, b: 0.6164466, a: 1}
   _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
-  _displacementIntensity: 0.1
-  _displacementSpeed: 0.09
+  _displacementIntensity: 0.033
+  _displacementSpeed: 0.04
   _displacementScale: 0.684
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
   _localOffsetIntensity: 2
@@ -573,7 +575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1136091960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -620,10 +622,11 @@ MonoBehaviour:
   _radius: 1.2
   _maskInitRandomStep: 1
   _maskLastRandomStep: 0.5
+  _gravity: 0.06
   _downColor: {r: 0.49056602, g: 0.34515747, b: 0.09024564, a: 1}
   _upColor: {r: 1, g: 0.9085373, b: 0.6745283, a: 1}
   _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
-  _displacementIntensity: 0.1
+  _displacementIntensity: 0.033
   _displacementSpeed: 0.04
   _displacementScale: 0.4
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
@@ -707,6 +710,7 @@ MonoBehaviour:
   _radius: 1.2
   _maskInitRandomStep: 1
   _maskLastRandomStep: 0.5
+  _gravity: 0
   _downColor: {r: 0.079476684, g: 0.3584906, b: 0.11952099, a: 1}
   _upColor: {r: 0.5433176, g: 1, b: 0.4764151, a: 1}
   _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
@@ -846,8 +850,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1820469907}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.38683373, y: -0.2469184, z: 0.1083545, w: 0.8818448}
+  m_LocalPosition: {x: 9.136676, y: 6.1147776, z: -2.6641054}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -24,6 +24,7 @@ namespace ShellTexturing
         private static readonly int STEP_MAX_ID = Shader.PropertyToID("_StepMax");
         private static readonly int HEIGHT_PERCENTAGE_ID = Shader.PropertyToID("_HeightPercentage");
         private static readonly int HEIGHT_SPACE_PERCENTAGE_ID = Shader.PropertyToID("_HeightSpacePercentage");
+        private static readonly int GRAVITY_ID = Shader.PropertyToID("_Gravity");
 
         [SerializeField, FoldoutGroup("References")]
         private GameObject _quadPrefab;
@@ -48,7 +49,10 @@ namespace ShellTexturing
         private float _maskInitRandomStep = 0.9f;
         [SerializeField, Range(0f, 1f), FoldoutGroup("Settings")]
         private float _maskLastRandomStep = 0.1f;
-        
+
+        [SerializeField, FoldoutGroup("Settings/Gravity")]
+        private float _gravity = 0f;
+
         [SerializeField, FoldoutGroup("Settings/Color")]
         private Color _downColor = Color.black;
         [SerializeField, FoldoutGroup("Settings/Color")]
@@ -138,6 +142,7 @@ namespace ShellTexturing
             quadMaterial.SetFloat(SHELL_HEIGHT_ID, this._height);
             quadMaterial.SetFloat(STEP_MIN_ID, this._maskInitRandomStep);
             quadMaterial.SetFloat(STEP_MAX_ID, this._maskLastRandomStep);
+            quadMaterial.SetFloat(GRAVITY_ID, this._gravity);
 
             return quadInstance;
         }
