@@ -49,6 +49,7 @@ Shader "Shell Layer"
             float4 _ColorMax;
             float _Radius;
             float _HeightPercentage;
+            float _HeightSpacePercentage;
 
             float _ShellIndex;
             float _ShellsCount;
@@ -67,7 +68,9 @@ Shader "Shell Layer"
 
                 // Height.
                 float height = _ShellHeight * _HeightPercentage;
-                vertex.xyz += v.normal * height;
+                float3 localHeightOffset = v.normal * height;
+                float3 globalHeightOffset = float3(0, height, 0);
+                vertex.xyz += lerp(localHeightOffset, globalHeightOffset, _HeightSpacePercentage);
                 
                 // Horizontal displacement.
                 float2 horizontalDisplacement = (tex2Dlod(_Displacement, float4(o.uv * _DisplacementScale + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;

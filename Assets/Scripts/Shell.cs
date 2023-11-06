@@ -23,6 +23,7 @@ namespace ShellTexturing
         private static readonly int STEP_MIN_ID = Shader.PropertyToID("_StepMin");
         private static readonly int STEP_MAX_ID = Shader.PropertyToID("_StepMax");
         private static readonly int HEIGHT_PERCENTAGE_ID = Shader.PropertyToID("_HeightPercentage");
+        private static readonly int HEIGHT_SPACE_PERCENTAGE_ID = Shader.PropertyToID("_HeightSpacePercentage");
 
         [SerializeField, FoldoutGroup("References")]
         private GameObject _quadPrefab;
@@ -35,7 +36,8 @@ namespace ShellTexturing
         private int _resolution = 32;
         [SerializeField, FoldoutGroup("Settings")]
         private float _height;
-
+        [SerializeField, Range(0f, 1f), FoldoutGroup("Settings")]
+        private float _heightSpacePercentage = 0f;
         [SerializeField, FoldoutGroup("Settings")]
         private AnimationCurve _heightDistribution = AnimationCurve.Linear(0f, 0f, 1f, 1f);
         [SerializeField, Min(2), FoldoutGroup("Settings")]
@@ -92,6 +94,9 @@ namespace ShellTexturing
                 filterMode = FilterMode.Point,
             };
             
+            // TODO: When resolution is not a multiple of 8, a visual issue occurs.
+            // Either fix properly or clamp/round resolution to multiple of 8.
+            
             this._randomComputeShader.SetTexture(0, "Result", layerTexture);
             this._randomComputeShader.Dispatch(0, this._resolution / 8, this._resolution / 8, 1);
             
@@ -121,6 +126,7 @@ namespace ShellTexturing
             quadMaterial.SetColor(COLOR_MAX_ID, this._upColor);
             quadMaterial.SetFloat(RADIUS_ID, this._radius);
             quadMaterial.SetFloat(HEIGHT_PERCENTAGE_ID, heightPercentage);
+            quadMaterial.SetFloat(HEIGHT_SPACE_PERCENTAGE_ID, this._heightSpacePercentage);
             quadMaterial.SetTexture(DISPLACEMENT_ID, this._displacementTexture);
             quadMaterial.SetFloat(DISPLACEMENT_INTENSITY_ID, this._displacementIntensity);
             quadMaterial.SetFloat(DISPLACEMENT_SPEED_ID, this._displacementSpeed);
