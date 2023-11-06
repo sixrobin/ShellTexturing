@@ -16,6 +16,7 @@ public class Shell : MonoBehaviour
     private static readonly int GLOBAL_WIND_DIRECTION_ID = Shader.PropertyToID("_GlobalWindDirection");
     private static readonly int SHELL_INDEX_ID = Shader.PropertyToID("_ShellIndex");
     private static readonly int SHELLS_COUNT_ID = Shader.PropertyToID("_ShellsCount");
+    private static readonly int SHELL_HEIGHT_ID = Shader.PropertyToID("_ShellHeight");
     private static readonly int STEP_MIN_ID = Shader.PropertyToID("_StepMin");
     private static readonly int STEP_MAX_ID = Shader.PropertyToID("_StepMax");
     private static readonly int HEIGHT_PERCENTAGE_ID = Shader.PropertyToID("_HeightPercentage");
@@ -107,11 +108,8 @@ public class Shell : MonoBehaviour
     {
         float percentage = index / (float)(this._count - 1);
         float heightPercentage = this._heightDistribution.Evaluate(percentage);
-        float height = Mathf.Lerp(0f, this._height, heightPercentage);
 
         GameObject quadInstance = Instantiate(this._quadPrefab, Vector3.zero, this._quadPrefab.transform.rotation, this.transform);
-        quadInstance.transform.Translate(Vector3.up * height, Space.World);
-
         Material quadMaterial = new(this._shellLayerMaterial);
         quadInstance.GetComponent<MeshRenderer>().material = quadMaterial;
 
@@ -128,6 +126,7 @@ public class Shell : MonoBehaviour
         quadMaterial.SetFloat(LOCAL_OFFSET_INTENSITY_ID, this._localOffsetIntensity);
         quadMaterial.SetFloat(SHELL_INDEX_ID, index);
         quadMaterial.SetFloat(SHELLS_COUNT_ID, this._count);
+        quadMaterial.SetFloat(SHELL_HEIGHT_ID, this._height);
         quadMaterial.SetFloat(STEP_MIN_ID, this._maskInitRandomStep);
         quadMaterial.SetFloat(STEP_MAX_ID, this._maskLastRandomStep);
 

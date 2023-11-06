@@ -22,6 +22,7 @@ Shader "Shell Layer"
             {
                 float4 vertex : POSITION;
                 float2 uv     : TEXCOORD0;
+                float3 normal : NORMAL;
             };
 
             struct v2f
@@ -51,6 +52,7 @@ Shader "Shell Layer"
 
             float _ShellIndex;
             float _ShellsCount;
+            float _ShellHeight;
             float _StepMin;
             float _StepMax;
 
@@ -62,10 +64,16 @@ Shader "Shell Layer"
                 o.uv = v.uv;
 
                 float3 vertex = v.vertex;
-                float2 displacement = (tex2Dlod(_Displacement, float4((o.uv * _DisplacementScale) + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;
-                vertex.xz += displacement * o.shellPercentage * _DisplacementIntensity;
-                vertex.xz += _GlobalWindDirection * o.shellPercentage;
+
+                // Height.
+                float height = _ShellHeight * _HeightPercentage;
+                vertex.xyz += v.normal * height;
                 
+                // Horizontal displacement.
+                float2 horizontalDisplacement = (tex2Dlod(_Displacement, float4(o.uv * _DisplacementScale + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;
+                vertex.xz += horizontalDisplacement * o.shellPercentage * _DisplacementIntensity;
+                vertex.xz += _GlobalWindDirection * o.shellPercentage;
+
                 o.vertex = UnityObjectToClipPos(vertex);
                 
                 return o;
