@@ -1,5 +1,14 @@
 Shader "Shell Layer"
 {
+    Properties
+    {
+        [MaterialToggle] _IgnoreRipple ("Ignore Ripple", Float) = 0
+        
+        _Ripple1 ("Ripple 1", Vector) = (0,0,0,0)
+        _Ripple2 ("Ripple 2", Vector) = (0,0,0,0)
+        _Ripple3 ("Ripple 3", Vector) = (0,0,0,0)
+    }
+    
     SubShader
     {
         Tags
@@ -32,8 +41,12 @@ Shader "Shell Layer"
             };
 
             uniform float2 _GlobalWindDirection;
-            uniform float3 _RipplePosition;
-            uniform float _RippleTime;
+            
+            float4 _Ripple1;
+            float4 _Ripple2;
+            float4 _Ripple3;
+            float4 _Ripple4;
+            float4 _Ripple5;
 
             sampler2D _Mask;
             float4 _Mask_TexelSize;
@@ -60,6 +73,18 @@ Shader "Shell Layer"
             float _StepMin;
             float _StepMax;
 
+            float _IgnoreRipple;
+
+            float3 computeRipple(float4 ripple, float3 worldPosition)
+            {
+                float fade = max(0, 1 - ripple.w / 3.14);
+                float circle = step(ripple.w, length(worldPosition - ripple.xyz));
+                float ring = circle - step(ripple.w + 0.5, length(worldPosition - ripple.xyz));
+                // TODO: Clamp the strength so that grass never totally disappear below ground.
+                float3 ripple1Displacement = normalize(worldPosition - ripple.xyz) * ring * fade * (_ShellIndex / _ShellsCount) * saturate(_ShellIndex);
+                return ripple1Displacement;
+            }
+            
             v2f vert(appdata v)
             {
                 v2f o;
@@ -75,18 +100,21 @@ Shader "Shell Layer"
                 float3 globalHeightOffset = float3(0, height, 0);
                 vertex.xyz += lerp(localHeightOffset, globalHeightOffset, _HeightSpacePercentage);
 
-                // Gravity.
-                vertex.y -= _Gravity * _HeightPercentage;
+                // Gravity. // TODO: Gravity should be handled in world space.
+                vertex.xyz -= _Gravity * _HeightPercentage;
                 
                 // TODO: Horizontal displacement (wind and ripple) should use mesh tangent/binormal.
 
                 // Ripple.
-                float3 worldPosition = mul(unity_ObjectToWorld, v.vertex).xyz;
-                float3 ripple = worldPosition - _RipplePosition;
-                float rippleStrength = 1 - min(1, length(ripple));
-                // TODO: Clamp the strength so that grass never totally disappear below ground.
-                float3 rippleDisplacement = normalize(ripple) * rippleStrength * shellPercentage * saturate(_ShellIndex);
-                vertex.xyz += rippleDisplacement;
+                if (_IgnoreRipple == 0)
+                {
+                    float3 worldPosition = mul(unity_ObjectToWorld, v.vertex).xyz;
+                    vertex.xyz += computeRipple(_Ripple1, worldPosition);
+                    vertex.xyz += computeRipple(_Ripple2, worldPosition);
+                    vertex.xyz += computeRipple(_Ripple3, worldPosition);
+                    vertex.xyz += computeRipple(_Ripple4, worldPosition);
+                    vertex.xyz += computeRipple(_Ripple5, worldPosition);
+                }
 
                 // Wind.
                 float2 horizontalDisplacement = (tex2Dlod(_Displacement, float4(o.uv * _DisplacementScale + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;

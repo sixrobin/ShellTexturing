@@ -52,6 +52,10 @@ Shader "Ripple Test"
             fixed4 frag(v2f i) : SV_Target
             {
                 float2 uvCentered = (i.uv - 0.5) * 2 / _Lifetime;
+
+                // TMP test.
+                return fixed4((step(_Lifetime, length(uvCentered)) - step(_Lifetime + _Size, length(uvCentered))).xxx, 1);
+                
                 float rippleLength = (1 - length(uvCentered)) * _Size;
 
                 float rippleRadius = smoothstep(0.65, 0.7, rippleLength);

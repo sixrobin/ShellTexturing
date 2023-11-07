@@ -44,7 +44,10 @@ namespace ShellTexturing
                     float height = (this._elevationMap.GetPixel(x * this._elevationScale, y * this._elevationScale).r - 0.5f) * 2f * this._elevationIntensity;
                     
                     // TODO: Adjust x and z positions so that plane is centered.
-                    this._vertices[i] = new Vector3(x * this._scale, height, y * this._scale);
+                    float posX = x * this._scale - (this._density.x * this._scale) * 0.5f;
+                    float posZ = y * this._scale - (this._density.y * this._scale) * 0.5f;;
+                    this._vertices[i] = new Vector3(posX, height, posZ);
+                    
                     uv[i] = new Vector2(x / (float)this._density.x, y / (float)this._density.y);
                     tangents[i] = new Vector4(1f, 0f, 0f, -1f);
                 }

@@ -84,6 +84,8 @@ namespace ShellTexturing
         private RenderTexture _maskTexture;
         private bool _dirty;
 
+        public float Height => this._height;
+
         private void Refresh()
         {
             if (this._quadPrefab == null)
@@ -149,14 +151,20 @@ namespace ShellTexturing
             quadMaterial.SetFloat(STEP_MIN_ID, this._maskInitRandomStep);
             quadMaterial.SetFloat(STEP_MAX_ID, this._maskLastRandomStep);
             quadMaterial.SetFloat(GRAVITY_ID, this._gravity);
+            
+            quadMaterial.SetVector("_Ripple1", new Vector4(0f, 0f, 0f, 1000f));
+            quadMaterial.SetVector("_Ripple2", new Vector4(0f, 0f, 0f, 1000f));
+            quadMaterial.SetVector("_Ripple3", new Vector4(0f, 0f, 0f, 1000f));
+            quadMaterial.SetVector("_Ripple4", new Vector4(0f, 0f, 0f, 1000f));
+            quadMaterial.SetVector("_Ripple5", new Vector4(0f, 0f, 0f, 1000f));
 
             return quadInstance;
         }
 
         #region UNITY METHODS
-        private void Start()
+        private void Awake()
         {
-            this._dirty = true;
+            this.Refresh();
         }
 
         private void Update()
@@ -172,8 +180,8 @@ namespace ShellTexturing
             globalWindDirection *= 0.1f;
             Shader.SetGlobalVector(GLOBAL_WIND_DIRECTION_ID, globalWindDirection);
             
-            Shader.SetGlobalVector(RIPPLE_POSITION_ID, this._ripplePosition.position);
-            Shader.SetGlobalFloat("_RippleTime", this._rippleTime);
+            // Shader.SetGlobalVector(RIPPLE_POSITION_ID, this._ripplePosition.position);
+            // Shader.SetGlobalFloat("_RippleTime", this._rippleTime);
         }
 
         private void OnValidate()
