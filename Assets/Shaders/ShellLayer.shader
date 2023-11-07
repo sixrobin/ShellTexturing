@@ -33,7 +33,7 @@ Shader "Shell Layer"
 
             uniform float2 _GlobalWindDirection;
             uniform float3 _RipplePosition;
-            uniform float _RippleStrengthMultiplier;
+            uniform float _RippleTime;
 
             sampler2D _Mask;
             float4 _Mask_TexelSize;
@@ -84,9 +84,9 @@ Shader "Shell Layer"
                 float3 worldPosition = mul(unity_ObjectToWorld, v.vertex).xyz;
                 float3 ripple = worldPosition - _RipplePosition;
                 float rippleStrength = 1 - min(1, length(ripple));
-                vertex.xz += float2(ripple.x, ripple.z) * rippleStrength * shellPercentage * saturate(_ShellIndex);
                 // TODO: Clamp the strength so that grass never totally disappear below ground.
-                vertex.xyz += normalize(ripple) * rippleStrength * shellPercentage * saturate(_ShellIndex) * float3(1, _RippleStrengthMultiplier, 1);
+                float3 rippleDisplacement = normalize(ripple) * rippleStrength * shellPercentage * saturate(_ShellIndex);
+                vertex.xyz += rippleDisplacement;
 
                 // Wind.
                 float2 horizontalDisplacement = (tex2Dlod(_Displacement, float4(o.uv * _DisplacementScale + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;
