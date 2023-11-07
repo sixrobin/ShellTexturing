@@ -25,7 +25,8 @@ namespace ShellTexturing
         }
 
         private void Update()
-        {            
+        {
+            // TODO: This is obviously shit, optimize this (done as there were an issue with shell reference).
             this._shellLayers = this.GetComponentsInChildren<MeshRenderer>().Select(o => o.sharedMaterial).ToArray();
 
             foreach (Material shellLayer in this._shellLayers)
@@ -33,6 +34,7 @@ namespace ShellTexturing
                 for (int i = 0; i < RIPPLES_COUNT; ++i)
                 {
                     Vector4 ripple = shellLayer.GetVector($"_Ripple{i + 1}");
+                    // TODO: Add easing.
                     ripple.w += Time.deltaTime * this._rippleRecoverSpeed;
                     shellLayer.SetVector($"_Ripple{i + 1}", ripple);
                 }

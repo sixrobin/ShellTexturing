@@ -25,7 +25,7 @@ namespace ShellTexturing
         private static readonly int HEIGHT_PERCENTAGE_ID = Shader.PropertyToID("_HeightPercentage");
         private static readonly int HEIGHT_SPACE_PERCENTAGE_ID = Shader.PropertyToID("_HeightSpacePercentage");
         private static readonly int GRAVITY_ID = Shader.PropertyToID("_Gravity");
-        private static readonly int RIPPLE_POSITION_ID = Shader.PropertyToID("_RipplePosition");
+        private static readonly int RIPPLE_DURATION_ID = Shader.PropertyToID("_RippleDuration");
         
         [SerializeField, FoldoutGroup("References")]
         private GameObject _quadPrefab;
@@ -76,10 +76,8 @@ namespace ShellTexturing
         [SerializeField, Required, FoldoutGroup("Settings/Global wind")]
         private Transform _globalWindDirectionTarget = null;
 
-        [SerializeField, Required, FoldoutGroup("Settings/Ripple")]
-        private Transform _ripplePosition = null;
         [SerializeField, Min(0f), FoldoutGroup("Settings/Ripple")]
-        private float _rippleTime = 0f;
+        private float _rippleDuration = 1f;
 
         private RenderTexture _maskTexture;
         private bool _dirty;
@@ -151,6 +149,7 @@ namespace ShellTexturing
             quadMaterial.SetFloat(STEP_MIN_ID, this._maskInitRandomStep);
             quadMaterial.SetFloat(STEP_MAX_ID, this._maskLastRandomStep);
             quadMaterial.SetFloat(GRAVITY_ID, this._gravity);
+            quadMaterial.SetFloat(RIPPLE_DURATION_ID, this._rippleDuration);
             
             quadMaterial.SetVector("_Ripple1", new Vector4(0f, 0f, 0f, 1000f));
             quadMaterial.SetVector("_Ripple2", new Vector4(0f, 0f, 0f, 1000f));
@@ -179,9 +178,6 @@ namespace ShellTexturing
             globalWindDirection.y = globalWindDirection.z;
             globalWindDirection *= 0.1f;
             Shader.SetGlobalVector(GLOBAL_WIND_DIRECTION_ID, globalWindDirection);
-            
-            // Shader.SetGlobalVector(RIPPLE_POSITION_ID, this._ripplePosition.position);
-            // Shader.SetGlobalFloat("_RippleTime", this._rippleTime);
         }
 
         private void OnValidate()

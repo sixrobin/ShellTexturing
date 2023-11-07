@@ -41,7 +41,8 @@ Shader "Shell Layer"
             };
 
             uniform float2 _GlobalWindDirection;
-            
+
+            float _RippleDuration;
             float4 _Ripple1;
             float4 _Ripple2;
             float4 _Ripple3;
@@ -77,9 +78,10 @@ Shader "Shell Layer"
 
             float3 computeRipple(float4 ripple, float3 worldPosition)
             {
-                float fade = max(0, 1 - ripple.w / 3.14);
-                float circle = step(ripple.w, length(worldPosition - ripple.xyz));
-                float ring = circle - step(ripple.w + 0.5, length(worldPosition - ripple.xyz));
+                float fade = max(0, 1 - ripple.w / _RippleDuration);
+                // TODO: Smooth the force ring.
+                float circle = step(ripple.w, length(worldPosition - ripple.xyz)); // TODO: Add _MaxRadius.
+                float ring = circle - step(ripple.w + 0.5, length(worldPosition - ripple.xyz)); // TODO: Expose .5 as _RingWidth.
                 // TODO: Clamp the strength so that grass never totally disappear below ground.
                 float3 ripple1Displacement = normalize(worldPosition - ripple.xyz) * ring * fade * (_ShellIndex / _ShellsCount) * saturate(_ShellIndex);
                 return ripple1Displacement;
