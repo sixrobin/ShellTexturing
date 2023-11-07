@@ -196,6 +196,8 @@ MonoBehaviour:
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
   _localOffsetIntensity: 1
   _globalWindDirectionTarget: {fileID: 1458579527}
+  _ripplePosition: {fileID: 533542475}
+  _rippleStrengthMultiplier: 0.75
 --- !u!4 &20781250
 Transform:
   m_ObjectHideFlags: 0
@@ -388,6 +390,59 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &533542473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 533542475}
+  - component: {fileID: 533542474}
+  m_Layer: 0
+  m_Name: RipplePosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!135 &533542474
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533542473}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &533542475
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533542473}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.72, y: 0, z: 1.98}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1020651841
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1020651842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,6 +516,8 @@ MonoBehaviour:
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
   _localOffsetIntensity: 2
   _globalWindDirectionTarget: {fileID: 1458579527}
+  _ripplePosition: {fileID: 533542475}
+  _rippleStrengthMultiplier: 1
 --- !u!4 &1020651843
 Transform:
   m_ObjectHideFlags: 0
@@ -575,7 +632,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1136091960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,6 +689,8 @@ MonoBehaviour:
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
   _localOffsetIntensity: 3.05
   _globalWindDirectionTarget: {fileID: 1458579527}
+  _ripplePosition: {fileID: 533542475}
+  _rippleStrengthMultiplier: 1
 --- !u!4 &1136091961
 Transform:
   m_ObjectHideFlags: 0
@@ -720,6 +779,8 @@ MonoBehaviour:
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
   _localOffsetIntensity: 1
   _globalWindDirectionTarget: {fileID: 1458579527}
+  _ripplePosition: {fileID: 533542475}
+  _rippleStrengthMultiplier: 1
 --- !u!4 &1394839737
 Transform:
   m_ObjectHideFlags: 0
@@ -893,7 +954,7 @@ MonoBehaviour:
   _scale: 0.1
   _elevationMap: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
   _elevationScale: 3
-  _elevationIntensity: 0.5
+  _elevationIntensity: 0
 --- !u!23 &1861356635
 MeshRenderer:
   m_ObjectHideFlags: 0

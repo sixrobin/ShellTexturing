@@ -25,7 +25,9 @@ namespace ShellTexturing
         private static readonly int HEIGHT_PERCENTAGE_ID = Shader.PropertyToID("_HeightPercentage");
         private static readonly int HEIGHT_SPACE_PERCENTAGE_ID = Shader.PropertyToID("_HeightSpacePercentage");
         private static readonly int GRAVITY_ID = Shader.PropertyToID("_Gravity");
-
+        private static readonly int RIPPLE_POSITION_ID = Shader.PropertyToID("_RipplePosition");
+        private static readonly int RIPPLE_STRENGTH_MULTIPLIER_ID = Shader.PropertyToID("_RippleStrengthMultiplier");
+        
         [SerializeField, FoldoutGroup("References")]
         private GameObject _quadPrefab;
         [SerializeField, FoldoutGroup("References")]
@@ -74,6 +76,11 @@ namespace ShellTexturing
         
         [SerializeField, Required, FoldoutGroup("Settings/Global wind")]
         private Transform _globalWindDirectionTarget = null;
+
+        [SerializeField, Required, FoldoutGroup("Settings/Ripple")]
+        private Transform _ripplePosition = null;
+        [SerializeField, Min(0f), FoldoutGroup("Settings/Ripple")]
+        private float _rippleStrengthMultiplier = 1;
 
         private RenderTexture _maskTexture;
         private bool _dirty;
@@ -165,6 +172,9 @@ namespace ShellTexturing
             globalWindDirection.y = globalWindDirection.z;
             globalWindDirection *= 0.1f;
             Shader.SetGlobalVector(GLOBAL_WIND_DIRECTION_ID, globalWindDirection);
+            
+            Shader.SetGlobalVector(RIPPLE_POSITION_ID, this._ripplePosition.position);
+            Shader.SetGlobalFloat(RIPPLE_STRENGTH_MULTIPLIER_ID, this._rippleStrengthMultiplier);
         }
 
         private void OnValidate()
