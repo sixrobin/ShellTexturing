@@ -26,6 +26,10 @@ namespace ShellTexturing
         private static readonly int HEIGHT_SPACE_PERCENTAGE_ID = Shader.PropertyToID("_HeightSpacePercentage");
         private static readonly int GRAVITY_ID = Shader.PropertyToID("_Gravity");
         private static readonly int RIPPLE_DURATION_ID = Shader.PropertyToID("_RippleDuration");
+        private static readonly int RIPPLE_CIRCLE_SMOOTHING_ID = Shader.PropertyToID("_RippleCircleSmoothing");
+        private static readonly int RIPPLE_RING_SMOOTHING_ID = Shader.PropertyToID("_RippleRingSmoothing");
+        private static readonly int RIPPLE_RADIUS_MULTIPLIER_ID = Shader.PropertyToID("_RippleRadiusMultiplier");
+        private static readonly int RIPPLE_INTENSITY_MULTIPLIER_ID = Shader.PropertyToID("_RippleIntensityMultiplier");
         
         [SerializeField, FoldoutGroup("References")]
         private GameObject _quadPrefab;
@@ -78,12 +82,22 @@ namespace ShellTexturing
 
         [SerializeField, Min(0f), FoldoutGroup("Settings/Ripple")]
         private float _rippleDuration = 1f;
-
+        [SerializeField, Min(0f), FoldoutGroup("Settings/Ripple")]
+        private float _rippleCircleSmoothing = 0f;
+        [SerializeField, Min(0f), FoldoutGroup("Settings/Ripple")]
+        private float _rippleRingSmoothing = 0f;
+        [SerializeField, Min(0f), FoldoutGroup("Settings/Ripple")]
+        private float _rippleRadiusMultiplier = 1f;
+        [SerializeField, Min(0f), FoldoutGroup("Settings/Ripple")]
+        private float _rippleIntensityMultiplier = 1f;
+        
         private RenderTexture _maskTexture;
         private bool _dirty;
 
         public float Height => this._height;
 
+        [Button]
+        [ContextMenu("Refresh")]
         private void Refresh()
         {
             if (this._quadPrefab == null)
@@ -150,6 +164,10 @@ namespace ShellTexturing
             quadMaterial.SetFloat(STEP_MAX_ID, this._maskLastRandomStep);
             quadMaterial.SetFloat(GRAVITY_ID, this._gravity);
             quadMaterial.SetFloat(RIPPLE_DURATION_ID, this._rippleDuration);
+            quadMaterial.SetFloat(RIPPLE_CIRCLE_SMOOTHING_ID, this._rippleCircleSmoothing);
+            quadMaterial.SetFloat(RIPPLE_RING_SMOOTHING_ID, this._rippleRingSmoothing);
+            quadMaterial.SetFloat(RIPPLE_RADIUS_MULTIPLIER_ID, this._rippleRadiusMultiplier);
+            quadMaterial.SetFloat(RIPPLE_INTENSITY_MULTIPLIER_ID, this._rippleIntensityMultiplier);
             
             quadMaterial.SetVector("_Ripple1", new Vector4(0f, 0f, 0f, 1000f));
             quadMaterial.SetVector("_Ripple2", new Vector4(0f, 0f, 0f, 1000f));

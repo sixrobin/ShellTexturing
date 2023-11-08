@@ -3,10 +3,7 @@ Shader "Shell Layer"
     Properties
     {
         [MaterialToggle] _IgnoreRipple ("Ignore Ripple", Float) = 0
-        
-        _Ripple1 ("Ripple 1", Vector) = (0,0,0,0)
-        _Ripple2 ("Ripple 2", Vector) = (0,0,0,0)
-        _Ripple3 ("Ripple 3", Vector) = (0,0,0,0)
+        _RippleRingWidth ("Ripple Ring Width", Range(0, 1)) = 0.5
     }
     
     SubShader
@@ -26,6 +23,7 @@ Shader "Shell Layer"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+            #include "Assets/Shaders/Easing.cginc"
 
             struct appdata
             {
@@ -42,6 +40,12 @@ Shader "Shell Layer"
 
             uniform float2 _GlobalWindDirection;
 
+            float _RippleRingWidth;
+            float _RippleCircleSmoothing;
+            float _RippleRingSmoothing;
+            float _RippleRadiusMultiplier;
+            float _RippleIntensityMultiplier;
+            float _IgnoreRipple;
             float _RippleDuration;
             float4 _Ripple1;
             float4 _Ripple2;
@@ -74,24 +78,23 @@ Shader "Shell Layer"
             float _StepMin;
             float _StepMax;
 
-            float _IgnoreRipple;
-
             float3 computeRipple(float4 ripple, float3 worldPosition)
             {
-                float fade = max(0, 1 - ripple.w / _RippleDuration);
-                // TODO: Smooth the force ring.
-                float circle = step(ripple.w, length(worldPosition - ripple.xyz)); // TODO: Add _MaxRadius.
-                float ring = circle - step(ripple.w + 0.5, length(worldPosition - ripple.xyz)); // TODO: Expose .5 as _RingWidth.
-                // TODO: Clamp the strength so that grass never totally disappear below ground.
-                float3 ripple1Displacement = normalize(worldPosition - ripple.xyz) * ring * fade * (_ShellIndex / _ShellsCount) * saturate(_ShellIndex);
-                return ripple1Displacement;
+                float distance = length(worldPosition - ripple.xyz) / max(0.001, _RippleRadiusMultiplier);
+                float rippleCircle = smoothstep(ripple.w - _RippleCircleSmoothing * 0.5, ripple.w + _RippleCircleSmoothing * 0.5, distance);
+                float rippleRing = rippleCircle - smoothstep(ripple.w + _RippleRingWidth - _RippleRingSmoothing * 0.5, ripple.w + _RippleRingWidth + _RippleRingSmoothing * 0.5, distance);
+
+                return normalize(worldPosition - ripple.xyz)
+                       * rippleRing
+                       * max(0, 1 - OutExpo(ripple.w / _RippleDuration))
+                       * saturate(_ShellIndex)
+                       * (_ShellIndex / _ShellsCount)
+                       * _RippleIntensityMultiplier;
             }
             
             v2f vert(appdata v)
             {
                 v2f o;
-
-                float shellPercentage = _ShellIndex / _ShellsCount;
                 o.uv = v.uv;
 
                 float3 vertex = v.vertex;
@@ -103,7 +106,7 @@ Shader "Shell Layer"
                 vertex.xyz += lerp(localHeightOffset, globalHeightOffset, _HeightSpacePercentage);
 
                 // Gravity. // TODO: Gravity should be handled in world space.
-                vertex.xyz -= _Gravity * _HeightPercentage;
+                vertex.y -= _Gravity * _HeightPercentage;
                 
                 // TODO: Horizontal displacement (wind and ripple) should use mesh tangent/binormal.
 
@@ -120,8 +123,8 @@ Shader "Shell Layer"
 
                 // Wind.
                 float2 horizontalDisplacement = (tex2Dlod(_Displacement, float4(o.uv * _DisplacementScale + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;
-                vertex.xz += horizontalDisplacement * shellPercentage * _DisplacementIntensity;
-                vertex.xz += _GlobalWindDirection * shellPercentage;
+                vertex.xz += horizontalDisplacement * (_ShellIndex / _ShellsCount) * _DisplacementIntensity;
+                vertex.xz += _GlobalWindDirection * (_ShellIndex / _ShellsCount);
 
                 o.vertex = UnityObjectToClipPos(vertex);
                 

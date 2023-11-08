@@ -76,10 +76,12 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _IgnoreRipple: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _RippleRingWidth: 0.7
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -88,4 +90,7 @@ Material:
     m_Colors:
     - _Color: {r: 0.23332052, g: 0.6132076, b: 0.14173195, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Ripple1: {r: 0, g: 0, b: 0, a: 0}
+    - _Ripple2: {r: 0, g: 0, b: 0, a: 0}
+    - _Ripple3: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

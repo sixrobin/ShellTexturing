@@ -3,6 +3,8 @@ Shader "Ripple Test"
     Properties
     {
         _Size ("Size", Float) = 1
+        _CircleSmoothing ("Circle Smoothing", Float) = 0
+        _RingSmoothing ("Ring Smoothing", Float) = 0
         _Lifetime ("Lifetime", Float) = 1
         _Duration ("Duration", Float) = 2
     }
@@ -37,6 +39,8 @@ Shader "Ripple Test"
                 float4 vertex : SV_POSITION;
             };
 
+            float _CircleSmoothing;
+            float _RingSmoothing;
             float _Size;
             float _Lifetime;
             float _Duration;
@@ -54,7 +58,9 @@ Shader "Ripple Test"
                 float2 uvCentered = (i.uv - 0.5) * 2 / _Lifetime;
 
                 // TMP test.
-                return fixed4((step(_Lifetime, length(uvCentered)) - step(_Lifetime + _Size, length(uvCentered))).xxx, 1);
+                float circle = smoothstep(_Lifetime - (_CircleSmoothing/2), _Lifetime + (_CircleSmoothing/2), length(uvCentered));
+                float ring = smoothstep(_Lifetime + _Size - (_RingSmoothing/2), _Lifetime + _Size + (_RingSmoothing/2), length(uvCentered));
+                return fixed4((circle - ring).xxx, 1);
                 
                 float rippleLength = (1 - length(uvCentered)) * _Size;
 
