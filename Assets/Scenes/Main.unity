@@ -134,9 +134,8 @@ GameObject:
   - component: {fileID: 20781250}
   - component: {fileID: 20781251}
   - component: {fileID: 20781249}
-  - component: {fileID: 20781252}
   m_Layer: 0
-  m_Name: Shell_ProceduralPlane
+  m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,12 +153,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e17bc815b929294a94574716975bd87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _quadPrefab: {fileID: 1861356633}
+  _shellLayerModel: {fileID: 1861356633}
   _shellLayerMaterial: {fileID: 2100000, guid: 92e274f639eabb2478ba20c0d61957b5, type: 2}
   _randomComputeShader: {fileID: 7200000, guid: 53bb92569eae4814fa7e8e8d9ada2b78, type: 3}
   _resolution: 256
   _height: 0.3
-  _heightSpacePercentage: 0.7
   _heightDistribution:
     serializedVersion: 2
     m_Curve:
@@ -185,24 +183,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _count: 48
-  _radius: 1.4
-  _maskInitRandomStep: 1
-  _maskLastRandomStep: 0.5
-  _gravity: 0
-  _downColor: {r: 0.10399608, g: 0.38679248, b: 0.14382656, a: 1}
-  _upColor: {r: 0.61811966, g: 1, b: 0.3915094, a: 1}
-  _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
-  _displacementIntensity: 0.16
-  _displacementSpeed: 0.08
-  _displacementScale: 1
-  _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 1
   _globalWindDirectionTarget: {fileID: 1458579527}
-  _rippleDuration: 1.2
-  _rippleCircleSmoothing: 1.5
-  _rippleRingSmoothing: 1
-  _rippleRadiusMultiplier: 0.7
-  _rippleIntensityMultiplier: 0.5
+  _contactHeightMultiplier: 0.7
+  _rippleRecoverSpeed: 1
 --- !u!4 &20781250
 Transform:
   m_ObjectHideFlags: 0
@@ -240,20 +223,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &20781252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20781248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9101e6c2b50983c4982f6f9b5c30d88d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _contactHeightMultiplier: 0.65
-  _rippleRecoverSpeed: 1
 --- !u!1 &37831960
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,12 +343,12 @@ GameObject:
   - component: {fileID: 197614411}
   - component: {fileID: 197614410}
   m_Layer: 0
-  m_Name: Shell_Sphere_02
+  m_Name: Ball_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &197614410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,12 +422,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e17bc815b929294a94574716975bd87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _quadPrefab: {fileID: 1081782392}
+  _shellLayerModel: {fileID: 1081782392}
   _shellLayerMaterial: {fileID: 2100000, guid: 016bba799e37a4a488a0b8b00867ba0f, type: 2}
   _randomComputeShader: {fileID: 7200000, guid: 53bb92569eae4814fa7e8e8d9ada2b78, type: 3}
   _resolution: 128
-  _height: 0.5
-  _heightSpacePercentage: 0
+  _height: 0.3
   _heightDistribution:
     serializedVersion: 2
     m_Curve:
@@ -484,24 +452,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _count: 64
-  _radius: 3.9
-  _maskInitRandomStep: 1
-  _maskLastRandomStep: 0.5
-  _gravity: 0
-  _downColor: {r: 0.49056602, g: 0.34515747, b: 0.09024564, a: 1}
-  _upColor: {r: 1, g: 0.9085373, b: 0.6745283, a: 1}
-  _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
-  _displacementIntensity: 0.033
-  _displacementSpeed: 0.04
-  _displacementScale: 0.4
-  _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 2
   _globalWindDirectionTarget: {fileID: 1458579527}
-  _rippleDuration: 1
-  _rippleCircleSmoothing: 0
-  _rippleRingSmoothing: 0
-  _rippleRadiusMultiplier: 1
-  _rippleIntensityMultiplier: 1
+  _contactHeightMultiplier: 1
+  _rippleRecoverSpeed: 1
 --- !u!4 &197614414
 Transform:
   m_ObjectHideFlags: 0
@@ -515,7 +468,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &205474165
 GameObject:
@@ -546,7 +499,82 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &300145385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300145389}
+  - component: {fileID: 300145386}
+  m_Layer: 0
+  m_Name: Ball_01_View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &300145386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300145385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 259b0050032d3e64cab0fcd1349ac612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shellLayerModel: {fileID: 1081782392}
+  _shellLayerMaterial: {fileID: 2100000, guid: 016bba799e37a4a488a0b8b00867ba0f, type: 2}
+  _randomComputeShader: {fileID: 7200000, guid: 53bb92569eae4814fa7e8e8d9ada2b78, type: 3}
+  _resolution: 128
+  _height: 0.3
+  _heightDistribution:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _count: 64
+  _ballPhysics: {fileID: 1136091964}
+--- !u!4 &300145389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300145385}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &389595341
 GameObject:
@@ -1025,7 +1053,7 @@ GameObject:
   - component: {fileID: 1081782394}
   - component: {fileID: 1081782393}
   m_Layer: 0
-  m_Name: Model_Sphere
+  m_Name: Ball_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1051,7 +1079,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ece1560fac324474a978964a1ec1b5d8, type: 2}
+  - {fileID: 2100000, guid: 016bba799e37a4a488a0b8b00867ba0f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1105,78 +1133,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1136091961}
-  - component: {fileID: 1136091960}
   - component: {fileID: 1136091963}
   - component: {fileID: 1136091962}
   - component: {fileID: 1136091964}
   m_Layer: 0
-  m_Name: Shell_Sphere_01
+  m_Name: Ball_01_Physics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1136091960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136091959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e17bc815b929294a94574716975bd87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _quadPrefab: {fileID: 1081782392}
-  _shellLayerMaterial: {fileID: 2100000, guid: 016bba799e37a4a488a0b8b00867ba0f, type: 2}
-  _randomComputeShader: {fileID: 7200000, guid: 53bb92569eae4814fa7e8e8d9ada2b78, type: 3}
-  _resolution: 128
-  _height: 0.5
-  _heightSpacePercentage: 0
-  _heightDistribution:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _count: 64
-  _radius: 3.9
-  _maskInitRandomStep: 1
-  _maskLastRandomStep: 0.5
-  _gravity: 0
-  _downColor: {r: 0.49056602, g: 0.34515747, b: 0.09024564, a: 1}
-  _upColor: {r: 1, g: 0.9085373, b: 0.6745283, a: 1}
-  _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
-  _displacementIntensity: 0.033
-  _displacementSpeed: 0.04
-  _displacementScale: 0.4
-  _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 2
-  _globalWindDirectionTarget: {fileID: 1458579527}
-  _rippleDuration: 1
-  _rippleCircleSmoothing: 0
-  _rippleRingSmoothing: 0
-  _rippleRadiusMultiplier: 1
-  _rippleIntensityMultiplier: 1
 --- !u!4 &1136091961
 Transform:
   m_ObjectHideFlags: 0
@@ -1247,12 +1213,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1136091959}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a88e66e71060eb4981c2b19920ce21a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startForce: 20
+  _startForce: 0
 --- !u!1 &1280540584
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,12 +1233,12 @@ GameObject:
   - component: {fileID: 1280540586}
   - component: {fileID: 1280540585}
   m_Layer: 0
-  m_Name: Shell_Sphere_03
+  m_Name: Ball_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1280540585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1346,12 +1312,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e17bc815b929294a94574716975bd87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _quadPrefab: {fileID: 1081782392}
+  _shellLayerModel: {fileID: 1081782392}
   _shellLayerMaterial: {fileID: 2100000, guid: 016bba799e37a4a488a0b8b00867ba0f, type: 2}
   _randomComputeShader: {fileID: 7200000, guid: 53bb92569eae4814fa7e8e8d9ada2b78, type: 3}
   _resolution: 128
-  _height: 0.5
-  _heightSpacePercentage: 0
+  _height: 0.3
   _heightDistribution:
     serializedVersion: 2
     m_Curve:
@@ -1377,24 +1342,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _count: 64
-  _radius: 3.9
-  _maskInitRandomStep: 1
-  _maskLastRandomStep: 0.5
-  _gravity: 0
-  _downColor: {r: 0.49056602, g: 0.34515747, b: 0.09024564, a: 1}
-  _upColor: {r: 1, g: 0.9085373, b: 0.6745283, a: 1}
-  _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
-  _displacementIntensity: 0.033
-  _displacementSpeed: 0.04
-  _displacementScale: 0.4
-  _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 2
   _globalWindDirectionTarget: {fileID: 1458579527}
-  _rippleDuration: 1
-  _rippleCircleSmoothing: 0
-  _rippleRingSmoothing: 0
-  _rippleRadiusMultiplier: 1
-  _rippleIntensityMultiplier: 1
+  _contactHeightMultiplier: 1
+  _rippleRecoverSpeed: 1
 --- !u!4 &1280540589
 Transform:
   m_ObjectHideFlags: 0
@@ -1408,7 +1358,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1303209499
 GameObject:
@@ -1552,165 +1502,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1394839735
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1394839737}
-  - component: {fileID: 1394839736}
-  - component: {fileID: 1394839739}
-  - component: {fileID: 1394839738}
-  - component: {fileID: 1394839740}
-  m_Layer: 0
-  m_Name: Shell_Plane
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1394839736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394839735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e17bc815b929294a94574716975bd87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _quadPrefab: {fileID: 1879440918}
-  _shellLayerMaterial: {fileID: 2100000, guid: ece1560fac324474a978964a1ec1b5d8, type: 2}
-  _randomComputeShader: {fileID: 7200000, guid: 53bb92569eae4814fa7e8e8d9ada2b78, type: 3}
-  _resolution: 128
-  _height: 0.7
-  _heightSpacePercentage: 0
-  _heightDistribution:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _count: 64
-  _radius: 1.2
-  _maskInitRandomStep: 1
-  _maskLastRandomStep: 0.5
-  _gravity: 0
-  _downColor: {r: 0.079476684, g: 0.3584906, b: 0.11952099, a: 1}
-  _upColor: {r: 0.5433176, g: 1, b: 0.4764151, a: 1}
-  _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
-  _displacementIntensity: 0.2
-  _displacementSpeed: 0.08
-  _displacementScale: 1
-  _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 1
-  _globalWindDirectionTarget: {fileID: 1458579527}
-  _rippleDuration: 1
-  _rippleCircleSmoothing: 0
-  _rippleRingSmoothing: 0
-  _rippleRadiusMultiplier: 1
-  _rippleIntensityMultiplier: 1
---- !u!4 &1394839737
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394839735}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &1394839738
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394839735}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 1
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1394839739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394839735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9101e6c2b50983c4982f6f9b5c30d88d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _contactHeightMultiplier: 0.5
-  _rippleRecoverSpeed: 1
---- !u!54 &1394839740
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394839735}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1458579526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1756,12 +1547,12 @@ GameObject:
   - component: {fileID: 1725755520}
   - component: {fileID: 1725755519}
   m_Layer: 0
-  m_Name: Shell_Sphere_05
+  m_Name: Ball_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1725755519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1835,12 +1626,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e17bc815b929294a94574716975bd87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _quadPrefab: {fileID: 1081782392}
+  _shellLayerModel: {fileID: 1081782392}
   _shellLayerMaterial: {fileID: 2100000, guid: 016bba799e37a4a488a0b8b00867ba0f, type: 2}
   _randomComputeShader: {fileID: 7200000, guid: 53bb92569eae4814fa7e8e8d9ada2b78, type: 3}
   _resolution: 128
-  _height: 0.5
-  _heightSpacePercentage: 0
+  _height: 0.3
   _heightDistribution:
     serializedVersion: 2
     m_Curve:
@@ -1866,24 +1656,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _count: 64
-  _radius: 3.9
-  _maskInitRandomStep: 1
-  _maskLastRandomStep: 0.5
-  _gravity: 0
-  _downColor: {r: 0.49056602, g: 0.34515747, b: 0.09024564, a: 1}
-  _upColor: {r: 1, g: 0.9085373, b: 0.6745283, a: 1}
-  _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
-  _displacementIntensity: 0.033
-  _displacementSpeed: 0.04
-  _displacementScale: 0.4
-  _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 2
   _globalWindDirectionTarget: {fileID: 1458579527}
-  _rippleDuration: 1
-  _rippleCircleSmoothing: 0
-  _rippleRingSmoothing: 0
-  _rippleRadiusMultiplier: 1
-  _rippleIntensityMultiplier: 1
+  _contactHeightMultiplier: 1
+  _rippleRecoverSpeed: 1
 --- !u!4 &1725755523
 Transform:
   m_ObjectHideFlags: 0
@@ -1897,7 +1672,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1820469907
 GameObject:
@@ -2004,7 +1779,7 @@ GameObject:
   - component: {fileID: 1861356635}
   - component: {fileID: 1861356634}
   m_Layer: 0
-  m_Name: Model_ProceduralPlane
+  m_Name: Grass_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2035,8 +1810,8 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861356633}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -2092,89 +1867,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1879440918
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1879440922}
-  - component: {fileID: 1879440921}
-  - component: {fileID: 1879440920}
-  m_Layer: 0
-  m_Name: Model_Plane
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!23 &1879440920
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879440918}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: ece1560fac324474a978964a1ec1b5d8, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1879440921
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879440918}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1879440922
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879440918}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1974552005
 GameObject:
   m_ObjectHideFlags: 0
@@ -2189,12 +1881,12 @@ GameObject:
   - component: {fileID: 1974552007}
   - component: {fileID: 1974552006}
   m_Layer: 0
-  m_Name: Shell_Sphere_04
+  m_Name: Ball_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1974552006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2268,12 +1960,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e17bc815b929294a94574716975bd87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _quadPrefab: {fileID: 1081782392}
+  _shellLayerModel: {fileID: 1081782392}
   _shellLayerMaterial: {fileID: 2100000, guid: 016bba799e37a4a488a0b8b00867ba0f, type: 2}
   _randomComputeShader: {fileID: 7200000, guid: 53bb92569eae4814fa7e8e8d9ada2b78, type: 3}
   _resolution: 128
-  _height: 0.5
-  _heightSpacePercentage: 0
+  _height: 0.3
   _heightDistribution:
     serializedVersion: 2
     m_Curve:
@@ -2299,24 +1990,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _count: 64
-  _radius: 3.9
-  _maskInitRandomStep: 1
-  _maskLastRandomStep: 0.5
-  _gravity: 0
-  _downColor: {r: 0.49056602, g: 0.34515747, b: 0.09024564, a: 1}
-  _upColor: {r: 1, g: 0.9085373, b: 0.6745283, a: 1}
-  _displacementTexture: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
-  _displacementIntensity: 0.033
-  _displacementSpeed: 0.04
-  _displacementScale: 0.4
-  _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 2
   _globalWindDirectionTarget: {fileID: 1458579527}
-  _rippleDuration: 1
-  _rippleCircleSmoothing: 0
-  _rippleRingSmoothing: 0
-  _rippleRadiusMultiplier: 1
-  _rippleIntensityMultiplier: 1
+  _contactHeightMultiplier: 1
+  _rippleRecoverSpeed: 1
 --- !u!4 &1974552010
 Transform:
   m_ObjectHideFlags: 0
@@ -2330,5 +2006,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

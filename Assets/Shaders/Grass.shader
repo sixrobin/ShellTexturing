@@ -1,9 +1,44 @@
-Shader "Shell Layer"
+Shader "Shell/Grass"
 {
     Properties
     {
+        [Header(SHELL)]
+        [Space(5)]
+        _StepMin ("Step Min", Range(0, 1)) = 0
+        _StepMax ("Step Max", Range(0, 1)) = 1
+        _HeightSpacePercentage ("Height Space Percentage", Range(0, 1)) = 0
+        
+        [Header(COLOR AND RADIUS)]
+        [Space(5)]
+        _ColorMin ("Color Min", Color) = (0,0,0,0)
+        _ColorMax ("Color Max", Color) = (1,1,1,1)
+        _Radius ("Radius", Float) = 1
+
+        [Header(GRAVITY)]
+        [Space(5)]
+        _Gravity ("Gravity", Float) = 0
+                
+        [Header(LOCAL WIND)]
+        [Space(5)]
+        [NoScaleOffset] _WindNoise ("Wind Noise", 2D) = "black" {}
+        _WindIntensity ("Wind Intensity", Float) = 1
+        _WindSpeed ("Wind Speed", Float) = 1
+        _WindScale ("Wind Scale", Range(0, 1)) = 1
+        
+        [Header(LOCAL OFFSET)]
+        [Space(5)]
+        [NoScaleOffset] _LocalOffsetTexture ("Local Offset Texture", 2D) = "black" {}
+        _LocalOffsetIntensity ("Local Offset Intensity", Float) = 1
+        
+        [Header(RIPPLE)]
+        [Space(5)]
         [MaterialToggle] _IgnoreRipple ("Ignore Ripple", Float) = 0
         _RippleRingWidth ("Ripple Ring Width", Range(0, 1)) = 0.5
+        _RippleCircleSmoothing ("Ripple Circle Smoothing", Float) = 0.5
+        _RippleRingSmoothing ("Ripple Ring Smoothing", Float) = 0.5
+        _RippleRadiusMultiplier ("Ripple Radius Multiplier", Float) = 1
+        _RippleIntensityMultiplier ("Ripple Intensity Multiplier", Float) = 1
+        _RippleDuration ("Ripple Duration", Float) = 1
     }
     
     SubShader
@@ -38,8 +73,21 @@ Shader "Shell Layer"
                 float4 vertex : SV_POSITION;
             };
 
-            uniform float2 _GlobalWindDirection;
-
+            // Shell data.
+            sampler2D _Mask;
+            float4 _Mask_TexelSize;
+            float _ShellIndex;
+            float _ShellsCount;
+            float _ShellHeight;
+            float _StepMin;
+            float _StepMax;
+            float _HeightPercentage;
+            float _HeightSpacePercentage;
+            
+            // Gravity.
+            float _Gravity;
+            
+            // Ripple.
             float _RippleRingWidth;
             float _RippleCircleSmoothing;
             float _RippleRingSmoothing;
@@ -52,31 +100,24 @@ Shader "Shell Layer"
             float4 _Ripple3;
             float4 _Ripple4;
             float4 _Ripple5;
+            
+            // Local wind.
+            sampler2D _WindNoise;
+            float _WindIntensity;
+            float _WindSpeed;
+            float _WindScale;
 
-            sampler2D _Mask;
-            float4 _Mask_TexelSize;
-
-            sampler2D _Displacement;
-            float _DisplacementIntensity;
-            float _DisplacementSpeed;
-            float _DisplacementScale;
-
+            // Global wind.
+            uniform float2 _GlobalWindDirection;
+            
+            // Local offset.
             sampler2D _LocalOffset;
             float _LocalOffsetIntensity;
 
-            float _Gravity;
-            
+            // Color & radius.
             float4 _ColorMin;
             float4 _ColorMax;
             float _Radius;
-            float _HeightPercentage;
-            float _HeightSpacePercentage;
-
-            float _ShellIndex;
-            float _ShellsCount;
-            float _ShellHeight;
-            float _StepMin;
-            float _StepMax;
 
             float3 computeRipple(float4 ripple, float3 worldPosition)
             {
@@ -105,26 +146,29 @@ Shader "Shell Layer"
                 float3 globalHeightOffset = float3(0, height, 0);
                 vertex.xyz += lerp(localHeightOffset, globalHeightOffset, _HeightSpacePercentage);
 
-                // Gravity. // TODO: Gravity should be handled in world space.
+                // Gravity.
+                // TODO: Gravity should be handled in world space.
                 vertex.y -= _Gravity * _HeightPercentage;
                 
-                // TODO: Horizontal displacement (wind and ripple) should use mesh tangent/binormal.
+                // TODO: Horizontal displacement (wind and ripple) should use mesh tangent.
 
                 // Ripple.
                 if (_IgnoreRipple == 0)
                 {
                     float3 worldPosition = mul(unity_ObjectToWorld, v.vertex).xyz;
-                    vertex.xyz += computeRipple(_Ripple1, worldPosition);
-                    vertex.xyz += computeRipple(_Ripple2, worldPosition);
-                    vertex.xyz += computeRipple(_Ripple3, worldPosition);
-                    vertex.xyz += computeRipple(_Ripple4, worldPosition);
-                    vertex.xyz += computeRipple(_Ripple5, worldPosition);
+                    #define APPLY_RIPPLE(i) vertex.xyz += computeRipple(_Ripple##i##, worldPosition);
+                    APPLY_RIPPLE(1);
+                    APPLY_RIPPLE(2);
+                    APPLY_RIPPLE(3);
+                    APPLY_RIPPLE(4);
+                    APPLY_RIPPLE(5);
                 }
 
                 // Wind.
-                float2 horizontalDisplacement = (tex2Dlod(_Displacement, float4(o.uv * _DisplacementScale + _Time.y * _DisplacementSpeed, 0, 0)).xx - 0.5) * 2;
-                vertex.xz += horizontalDisplacement * (_ShellIndex / _ShellsCount) * _DisplacementIntensity;
-                vertex.xz += _GlobalWindDirection * (_ShellIndex / _ShellsCount);
+                // TODO: Replace _WindScale by _WindNoise_ST.
+                float2 localWind = (tex2Dlod(_WindNoise, float4(o.uv * _WindScale + _Time.y * _WindSpeed, 0, 0)).xx - 0.5) * 2 * _WindIntensity;
+                float2 wind = localWind + _GlobalWindDirection;
+                vertex.xz += wind * (_ShellIndex / _ShellsCount);
 
                 o.vertex = UnityObjectToClipPos(vertex);
                 

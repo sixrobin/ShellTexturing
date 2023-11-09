@@ -4,18 +4,24 @@ namespace ShellTexturing
     using UnityEngine;
 
     [RequireComponent(typeof(Rigidbody))]
-    public class Ball : MonoBehaviour
+    public class BallPhysics : MonoBehaviour
     {
         [SerializeField, Min(0f)]
         private float _startForce = 10f;
 
+        private Rigidbody _rigidbody;
+        
         [Button]
         private void Launch()
         {
-            Vector3 direction = Random.insideUnitSphere.normalized;
-            this.GetComponent<Rigidbody>().velocity = direction * this._startForce;
+            this._rigidbody.velocity = Random.insideUnitSphere.normalized * this._startForce;
         }
-        
+
+        private void Awake()
+        {
+            this._rigidbody = this.GetComponent<Rigidbody>();
+        }
+
         private void Start()
         {
             this.Launch();
