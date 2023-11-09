@@ -1,4 +1,4 @@
-Shader "Shell/Grass"
+Shader "Shell/Ball"
 {
     Properties
     {
@@ -29,16 +29,6 @@ Shader "Shell/Grass"
         [Space(5)]
         [NoScaleOffset] _LocalOffsetTexture ("Local Offset Texture", 2D) = "black" {}
         _LocalOffsetIntensity ("Local Offset Intensity", Float) = 1
-        
-        [Header(RIPPLE)]
-        [Space(5)]
-        [MaterialToggle] _IgnoreRipple ("Ignore Ripple", Float) = 0
-        _RippleRingWidth ("Ripple Ring Width", Range(0, 1)) = 0.5
-        _RippleCircleSmoothing ("Ripple Circle Smoothing", Float) = 0.5
-        _RippleRingSmoothing ("Ripple Ring Smoothing", Float) = 0.5
-        _RippleRadiusMultiplier ("Ripple Radius Multiplier", Float) = 1
-        _RippleIntensityMultiplier ("Ripple Intensity Multiplier", Float) = 1
-        _RippleDuration ("Ripple Duration", Float) = 1
     }
     
     SubShader
@@ -86,20 +76,10 @@ Shader "Shell/Grass"
             
             // Gravity.
             float _Gravity;
-            
-            // Ripple.
-            float _RippleRingWidth;
-            float _RippleCircleSmoothing;
-            float _RippleRingSmoothing;
-            float _RippleRadiusMultiplier;
-            float _RippleIntensityMultiplier;
-            float _IgnoreRipple;
-            float _RippleDuration;
-            float4 _Ripple1;
-            float4 _Ripple2;
-            float4 _Ripple3;
-            float4 _Ripple4;
-            float4 _Ripple5;
+
+            // Position smooth follow.
+            float3 _SmoothedPosition;
+            float3 _CurrentPosition;
             
             // Local wind.
             sampler2D _WindNoise;
@@ -118,20 +98,6 @@ Shader "Shell/Grass"
             float4 _ColorMin;
             float4 _ColorMax;
             float _Radius;
-
-            float3 computeRipple(float4 ripple, float3 worldPosition)
-            {
-                float distance = length(worldPosition - ripple.xyz) / max(0.001, _RippleRadiusMultiplier);
-                float rippleCircle = smoothstep(ripple.w - _RippleCircleSmoothing * 0.5, ripple.w + _RippleCircleSmoothing * 0.5, distance);
-                float rippleRing = rippleCircle - smoothstep(ripple.w + _RippleRingWidth - _RippleRingSmoothing * 0.5, ripple.w + _RippleRingWidth + _RippleRingSmoothing * 0.5, distance);
-
-                return normalize(worldPosition - ripple.xyz)
-                       * rippleRing
-                       * max(0, 1 - OutExpo(ripple.w / _RippleDuration))
-                       * saturate(_ShellIndex)
-                       * (_ShellIndex / _ShellsCount)
-                       * _RippleIntensityMultiplier;
-            }
             
             v2f vert(appdata v)
             {
@@ -146,23 +112,18 @@ Shader "Shell/Grass"
                 float3 globalHeightOffset = float3(0, height, 0);
                 vertex.xyz += lerp(localHeightOffset, globalHeightOffset, _HeightSpacePercentage);
 
+                // Position smooth follow. Clamp offset length by shell height to avoid shells being pushed inside the ball.
+                // TODO: Works kind of fine but seems to behave wrongly with rotation. Local vs global space issue?
+                float3 followOffset = _SmoothedPosition - _CurrentPosition;
+                if (length(followOffset) > _ShellHeight)
+                    followOffset = normalize(followOffset) * _ShellHeight;
+                vertex.xyz += followOffset * (_ShellIndex / _ShellsCount);
+                
                 // Gravity.
                 // TODO: Gravity should be handled in world space.
                 vertex.y -= _Gravity * _HeightPercentage;
                 
                 // TODO: Horizontal displacement (wind and ripple) should use mesh tangent.
-
-                // Ripple.
-                if (_IgnoreRipple == 0)
-                {
-                    float3 worldPosition = mul(unity_ObjectToWorld, v.vertex).xyz;
-                    #define APPLY_RIPPLE(i) vertex.xyz += computeRipple(_Ripple##i, worldPosition);
-                    APPLY_RIPPLE(1);
-                    APPLY_RIPPLE(2);
-                    APPLY_RIPPLE(3);
-                    APPLY_RIPPLE(4);
-                    APPLY_RIPPLE(5);
-                }
 
                 // Wind.
                 // TODO: Replace _WindScale by _WindNoise_ST.
