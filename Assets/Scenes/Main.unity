@@ -184,7 +184,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _count: 64
+  _count: 48
   _radius: 1.4
   _maskInitRandomStep: 1
   _maskLastRandomStep: 0.5
@@ -483,7 +483,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _count: 128
+  _count: 64
   _radius: 3.9
   _maskInitRandomStep: 1
   _maskLastRandomStep: 0.5
@@ -495,7 +495,7 @@ MonoBehaviour:
   _displacementSpeed: 0.04
   _displacementScale: 0.4
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 3.05
+  _localOffsetIntensity: 2
   _globalWindDirectionTarget: {fileID: 1458579527}
   _rippleDuration: 1
   _rippleCircleSmoothing: 0
@@ -1158,7 +1158,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _count: 128
+  _count: 64
   _radius: 3.9
   _maskInitRandomStep: 1
   _maskLastRandomStep: 0.5
@@ -1170,7 +1170,7 @@ MonoBehaviour:
   _displacementSpeed: 0.04
   _displacementScale: 0.4
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 3.05
+  _localOffsetIntensity: 2
   _globalWindDirectionTarget: {fileID: 1458579527}
   _rippleDuration: 1
   _rippleCircleSmoothing: 0
@@ -1376,7 +1376,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _count: 128
+  _count: 64
   _radius: 3.9
   _maskInitRandomStep: 1
   _maskLastRandomStep: 0.5
@@ -1388,7 +1388,7 @@ MonoBehaviour:
   _displacementSpeed: 0.04
   _displacementScale: 0.4
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 3.05
+  _localOffsetIntensity: 2
   _globalWindDirectionTarget: {fileID: 1458579527}
   _rippleDuration: 1
   _rippleCircleSmoothing: 0
@@ -1865,7 +1865,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _count: 128
+  _count: 64
   _radius: 3.9
   _maskInitRandomStep: 1
   _maskLastRandomStep: 0.5
@@ -1877,7 +1877,7 @@ MonoBehaviour:
   _displacementSpeed: 0.04
   _displacementScale: 0.4
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 3.05
+  _localOffsetIntensity: 2
   _globalWindDirectionTarget: {fileID: 1458579527}
   _rippleDuration: 1
   _rippleCircleSmoothing: 0
@@ -2022,8 +2022,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99dbc323685a25b4bab57185d1811064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _density: {x: 100, y: 100}
-  _scale: 0.1
+  _density: {x: 30, y: 30}
+  _scale: 0.333
   _elevationMap: {fileID: 2800000, guid: b23b448a5acf14849988672a6ec95eaf, type: 3}
   _elevationScale: 3
   _elevationIntensity: 0.25
@@ -2298,7 +2298,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _count: 128
+  _count: 64
   _radius: 3.9
   _maskInitRandomStep: 1
   _maskLastRandomStep: 0.5
@@ -2310,7 +2310,7 @@ MonoBehaviour:
   _displacementSpeed: 0.04
   _displacementScale: 0.4
   _localOffsetTexture: {fileID: 2800000, guid: 5d74a313801185546a68a36766c50e69, type: 3}
-  _localOffsetIntensity: 3.05
+  _localOffsetIntensity: 2
   _globalWindDirectionTarget: {fileID: 1458579527}
   _rippleDuration: 1
   _rippleCircleSmoothing: 0
