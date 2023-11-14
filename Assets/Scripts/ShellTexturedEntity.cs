@@ -49,19 +49,17 @@ namespace ShellTexturing
         private RenderTexture GenerateMask()
         {
             this._resolution = Mathf.Min(this._resolution, Constants.SHELL_MASK_MAX_RESOLUTION);
+            int resolution = this._resolution - this._resolution % 8;
 
-            RenderTexture layerTexture = new(this._resolution, this._resolution, 0, RenderTextureFormat.ARGB32)
+            RenderTexture layerTexture = new(resolution, resolution, 0, RenderTextureFormat.ARGB32)
             {
                 enableRandomWrite = true,
                 wrapMode = TextureWrapMode.Repeat,
                 filterMode = FilterMode.Point,
             };
             
-            // TODO: When resolution is not a multiple of 8, a visual issue occurs.
-            // Either fix properly or clamp/round resolution to multiple of 8.
-            
             this._randomComputeShader.SetTexture(0, "Result", layerTexture);
-            this._randomComputeShader.Dispatch(0, this._resolution / 8, this._resolution / 8, 1);
+            this._randomComputeShader.Dispatch(0, resolution / 8, resolution / 8, 1);
             
             return layerTexture;
         }
