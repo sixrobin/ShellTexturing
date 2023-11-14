@@ -112,15 +112,15 @@ Shader "Shell/Ball"
                 float3 globalHeightOffset = float3(0, height, 0);
                 vertex.xyz += lerp(localHeightOffset, globalHeightOffset, _HeightSpacePercentage);
 
+                vertex = mul(unity_ObjectToWorld, float4(vertex.xyz, 1));
+
                 // Position smooth follow. Clamp offset length by shell height to avoid shells being pushed inside the ball.
-                // TODO: Works kind of fine but seems to behave wrongly with rotation. Local vs global space issue?
                 float3 followOffset = _SmoothedPosition - _CurrentPosition;
                 if (length(followOffset) > _ShellHeight)
                     followOffset = normalize(followOffset) * _ShellHeight;
                 vertex.xyz += followOffset * (_ShellIndex / _ShellsCount);
                 
                 // Gravity.
-                // TODO: Gravity should be handled in world space.
                 vertex.y -= _Gravity * _HeightPercentage;
                 
                 // TODO: Horizontal displacement (wind and ripple) should use mesh tangent.
@@ -131,7 +131,7 @@ Shader "Shell/Ball"
                 float2 wind = localWind + _GlobalWindDirection;
                 vertex.xz += wind * (_ShellIndex / _ShellsCount);
 
-                o.vertex = UnityObjectToClipPos(vertex);
+                o.vertex = UnityWorldToClipPos(vertex);
                 
                 return o;
             }

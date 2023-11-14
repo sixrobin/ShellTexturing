@@ -27,7 +27,7 @@ Shader "Shell/Grass"
         
         [Header(LOCAL OFFSET)]
         [Space(5)]
-        [NoScaleOffset] _LocalOffsetTexture ("Local Offset Texture", 2D) = "black" {}
+        _LocalOffsetTexture ("Local Offset Texture", 2D) = "black" {}
         _LocalOffsetIntensity ("Local Offset Intensity", Float) = 1
         
         [Header(RIPPLE)]
@@ -111,7 +111,7 @@ Shader "Shell/Grass"
             uniform float2 _GlobalWindDirection;
             
             // Local offset.
-            sampler2D _LocalOffset;
+            sampler2D _LocalOffsetTexture;
             float _LocalOffsetIntensity;
 
             // Color & radius.
@@ -146,8 +146,9 @@ Shader "Shell/Grass"
                 float3 globalHeightOffset = float3(0, height, 0);
                 vertex.xyz += lerp(localHeightOffset, globalHeightOffset, _HeightSpacePercentage);
 
+                vertex = mul(unity_ObjectToWorld, float4(vertex.xyz, 1));
+
                 // Gravity.
-                // TODO: Gravity should be handled in world space.
                 vertex.y -= _Gravity * _HeightPercentage;
                 
                 // TODO: Horizontal displacement (wind and ripple) should use mesh tangent.
@@ -170,7 +171,7 @@ Shader "Shell/Grass"
                 float2 wind = localWind + _GlobalWindDirection;
                 vertex.xz += wind * (_ShellIndex / _ShellsCount);
 
-                o.vertex = UnityObjectToClipPos(vertex);
+                o.vertex = UnityWorldToClipPos(vertex);
                 
                 return o;
             }
@@ -179,7 +180,7 @@ Shader "Shell/Grass"
             {
                 // Shell cells local distance.
                 float2 centerUV = (frac(i.uv / _Mask_TexelSize.xy) - 0.5) * 2;
-                float localOffset = (tex2D(_LocalOffset, floor(i.uv * _Mask_TexelSize.zw) * _Mask_TexelSize.xy) - 0.5) * 2;
+                float localOffset = (tex2D(_LocalOffsetTexture, floor(i.uv * _Mask_TexelSize.zw) * _Mask_TexelSize.xy) - 0.5) * 2;
                 centerUV += localOffset * _LocalOffsetIntensity;
                 float centerDistance = length(centerUV);
 
