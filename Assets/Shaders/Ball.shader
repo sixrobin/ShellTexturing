@@ -20,10 +20,9 @@ Shader "Shell/Ball"
                 
         [Header(LOCAL WIND)]
         [Space(5)]
-        [NoScaleOffset] _WindNoise ("Wind Noise", 2D) = "black" {}
+        _WindNoise ("Wind Noise", 2D) = "black" {}
         _WindIntensity ("Wind Intensity", Float) = 1
         _WindSpeed ("Wind Speed", Float) = 1
-        _WindScale ("Wind Scale", Range(0, 1)) = 1
         
         [Header(LOCAL OFFSET)]
         [Space(5)]
@@ -83,9 +82,9 @@ Shader "Shell/Ball"
             
             // Local wind.
             sampler2D _WindNoise;
+            float4 _WindNoise_ST;
             float _WindIntensity;
             float _WindSpeed;
-            float _WindScale;
 
             // Global wind.
             uniform float2 _GlobalWindDirection;
@@ -126,8 +125,7 @@ Shader "Shell/Ball"
                 // TODO: Horizontal displacement (wind and ripple) should use mesh tangent.
 
                 // Wind.
-                // TODO: Replace _WindScale by _WindNoise_ST.
-                float2 localWind = (tex2Dlod(_WindNoise, float4(o.uv * _WindScale + _Time.y * _WindSpeed, 0, 0)).xx - 0.5) * 2 * _WindIntensity;
+                float2 localWind = (tex2Dlod(_WindNoise, float4((o.uv * _WindNoise_ST.xy) + _WindNoise_ST.zw + _Time.y * _WindSpeed, 0, 0)).xx - 0.5) * 2 * _WindIntensity;
                 float2 wind = localWind + _GlobalWindDirection;
                 vertex.xz += wind * (_ShellIndex / _ShellsCount);
 
