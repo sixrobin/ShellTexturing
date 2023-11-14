@@ -107,9 +107,9 @@ Material:
     - _StepMax: 1
     - _StepMin: 0.3
     - _UVSec: 0
-    - _WindIntensity: 0
-    - _WindScale: 0
-    - _WindSpeed: 0
+    - _WindIntensity: 0.04
+    - _WindScale: 1
+    - _WindSpeed: 0.04
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.23332052, g: 0.6132076, b: 0.14173195, a: 1}
