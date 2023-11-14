@@ -165,7 +165,6 @@ Shader "Shell/Grass"
                 }
 
                 // Wind.
-                // TODO: Replace _WindScale by _WindNoise_ST.
                 float2 localWind = (tex2Dlod(_WindNoise, float4((o.uv * _WindNoise_ST.xy) + _WindNoise_ST.zw + _Time.y * _WindSpeed, 0, 0)).xx - 0.5) * 2 * _WindIntensity;
                 float2 wind = localWind + _GlobalWindDirection;
                 vertex.xz += wind * (_ShellIndex / _ShellsCount);
