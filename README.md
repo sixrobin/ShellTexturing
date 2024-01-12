@@ -1,5 +1,6 @@
 # ShellTexturing
 Shell texturing experimentations, inspired by Acerola Furry Challenge (more info in his video: https://www.youtube.com/watch?v=9dr-tRQzij4).
+
 This project features a simple shell texturing implementation, with controllable height/radius/resolution, some noise to get a wind effect, and custom physics for grass and balls. Balls move randomly and have some smoothing on fur position and rotation, while grass have a reaction to balls bouncing on it.
 One of the most problematic issues that should be fixed is that balls can sometimes roll on the grass and the grass absolutely does not react to it (i.e. it only reacts to fall collisions).
 
